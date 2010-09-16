@@ -42,10 +42,10 @@ module ActionView
       def globalize_fields_for(locale, *args, &proc)
         raise ArgumentError, "Missing block" unless block_given?
         @index = @index ? @index + 1 : 1
-        object_name = "#{@object_name}[globalize_translations_attributes][#{@index}]"
-        object = @object.globalize_translations.find_by_locale locale.to_s
-        @template.concat @template.hidden_field_tag("#{object_name}[id]", object ? object.id : ""), proc.binding
-        @template.concat @template.hidden_field_tag("#{object_name}[locale]", locale), proc.binding
+        object_name = "#{@object_name}[translations_attributes][#{@index}]"
+        object = @object.translations.find_by_locale locale.to_s
+        @template.concat @template.hidden_field_tag("#{object_name}[id]", object ? object.id : "")
+        @template.concat @template.hidden_field_tag("#{object_name}[locale]", locale)
         @template.fields_for(object_name, object, *args, &proc)
       end
     end
@@ -58,7 +58,7 @@ module Globalize
       module Translated
         module Callbacks
           def enable_nested_attributes
-            accepts_nested_attributes_for :globalize_translations
+            accepts_nested_attributes_for :translations
           end
         end
         module InstanceMethods
@@ -68,11 +68,11 @@ module Globalize
           # Builds an empty translation for each available 
           # locale not in use after creation
           def init_translations
-            I18n.available_locales.reject{|key| key == :root }.each do |locale|
-              translation = self.globalize_translations.find_by_locale locale.to_s
+            I18n.translated_locales.reject{|key| key == :root }.each do |locale|
+              translation = self.translations.find_by_locale locale.to_s
               if translation.nil?
                 # logger.debug "Building empty translation with locale '#{locale}'"
-                globalize_translations.build :locale => locale
+                translations.build :locale => locale
                 save
               end
             end
