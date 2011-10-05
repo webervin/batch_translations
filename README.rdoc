@@ -10,7 +10,7 @@ separately in the same form and still saving them all at once in the same reques
 
 Batch translation supports Globalize 3 and is not backward compatible.
 
-  rails plugin install git://github.com/fidel/batch_translations.git
+  rails plugin install git://github.com/webervin/batch_translations.git
 
 Optionaly uses SimpleForm https://github.com/plataformatec/simple_form for translation subforms.
 
