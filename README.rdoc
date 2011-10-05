@@ -1,13 +1,18 @@
 = Batch translation
 
+Purpose of this fork is to enable use of :input method provided by SimpleForm to make translation forms even simpler..
+
 Helper that renders globalize_translations fields on a per-locale basis, so you can use them
 separately in the same form and still saving them all at once in the same request.
+
 
 == Installation
 
 Batch translation supports Globalize 3 and is not backward compatible.
 
   rails plugin install git://github.com/fidel/batch_translations.git
+
+Optionaly uses SimpleForm https://github.com/plataformatec/simple_form for translation subforms.
 
 == Model configuration
 
